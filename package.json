@@ -8,7 +8,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "dataline-mcp": "./dist/mcp/server.js"
+    "dataline-mcp": "dist/mcp/server.js"
   },
   "files": [
     "dist",
@@ -27,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dataline-xyz/dataline-mcps.git"
+    "url": "git+https://github.com/dataline-xyz/dataline-mcps.git"
   },
   "homepage": "https://www.dataline.xyz",
   "bugs": {
