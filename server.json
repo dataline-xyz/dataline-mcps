@@ -1,0 +1,49 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.dataline-xyz/dataline-mcp",
+  "title": "Dataline",
+  "description": "MCP server exposing Dataline market data: crypto spot/perp prices, funding rates, and prediction market odds (Polymarket, Kalshi).",
+  "websiteUrl": "https://www.dataline.xyz",
+  "repository": {
+    "url": "https://github.com/dataline-xyz/dataline-mcps",
+    "source": "github"
+  },
+  "version": "0.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@dataline-xyz/dataline-mcp",
+      "version": "0.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "DATALINE_API_KEY",
+          "description": "API key issued by Dataline",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "DATALINE_SECRET_KEY",
+          "description": "Secret used to sign requests (HMAC-SHA256)",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "DATALINE_BASE_URL",
+          "description": "Override the API base URL (default: https://www.dataline.xyz)",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "DATALINE_MCP_TIMEOUT_MS",
+          "description": "Per-request timeout in milliseconds (default: 45000)",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

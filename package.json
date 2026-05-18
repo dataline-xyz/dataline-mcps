@@ -1,6 +1,7 @@
 {
   "name": "@dataline-xyz/dataline-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "mcpName": "io.github.dataline-xyz/dataline-mcp",
   "description": "Model Context Protocol (MCP) server and TypeScript SDK for the Dataline data API (spot prices, funding rates, and prediction-market data)",
   "license": "MIT",
   "type": "module",
