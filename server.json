@@ -2,19 +2,19 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.dataline-xyz/dataline-mcp",
   "title": "Dataline",
-  "description": "MCP server exposing Dataline market data: crypto spot/perp prices, funding rates, and prediction market odds (Polymarket, Kalshi).",
+  "description": "Crypto spot/perp prices, funding rates, and prediction market odds (Polymarket, Kalshi).",
   "websiteUrl": "https://www.dataline.xyz",
   "repository": {
     "url": "https://github.com/dataline-xyz/dataline-mcps",
     "source": "github"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@dataline-xyz/dataline-mcp",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "transport": {
         "type": "stdio"
       },
