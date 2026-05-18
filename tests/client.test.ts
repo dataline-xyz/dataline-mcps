@@ -248,20 +248,16 @@ describe("DatalineClient", () => {
       );
     });
 
-    it("passes status and sort query params", async () => {
+    it("omits unsupported query params", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ code: 0, msg: "Success", data: [] }),
       });
 
-      await client.searchOddsEvents({ query: "bitcoin", status: "all", sort: "volume" });
+      await client.searchOddsEvents({ query: "bitcoin" });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining("status=all"),
-        expect.anything()
-      );
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining("sort=volume"),
+        expect.stringContaining("/api/v1/data/odds/event/search?query=bitcoin"),
         expect.anything()
       );
     });
@@ -333,7 +329,7 @@ describe("DatalineClient", () => {
   });
 
   describe("getOddsEventList", () => {
-    it("passes status, sort, and cursor query params", async () => {
+    it("passes is_active query param", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ code: 0, msg: "Success", data: [] }),
@@ -341,21 +337,11 @@ describe("DatalineClient", () => {
 
       await client.getOddsEventList({
         category: "crypto",
-        status: "closed",
-        sort: "open_interest",
-        cursor: "abc123",
+        isActive: false,
       });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining("status=closed"),
-        expect.anything()
-      );
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining("sort=open_interest"),
-        expect.anything()
-      );
-      expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining("cursor=abc123"),
+        expect.stringContaining("is_active=false"),
         expect.anything()
       );
     });

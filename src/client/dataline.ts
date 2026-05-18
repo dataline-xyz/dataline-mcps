@@ -78,21 +78,17 @@ export class DatalineClient {
 
   async getOddsEventList(params: {
     category?: string;
-    status?: "open" | "closed" | "settled" | "all";
-    sort?: "volume" | "open_interest" | "liquidity" | "close_time";
+    isActive?: boolean;
     page?: number;
     limit?: number;
     platform?: "polymarket" | "kalshi";
-    cursor?: string;
   }): Promise<EventResponse[] | DatalineError> {
     const query = new URLSearchParams();
     if (params.category) query.set("category", params.category);
-    if (params.status) query.set("status", params.status);
-    if (params.sort) query.set("sort", params.sort);
+    if (params.isActive !== undefined) query.set("is_active", String(params.isActive));
     if (params.page !== undefined) query.set("page", String(params.page));
     if (params.limit !== undefined) query.set("limit", String(params.limit));
     if (params.platform) query.set("platform", params.platform);
-    if (params.cursor) query.set("cursor", params.cursor);
     const qs = query.toString();
     const path = `/api/v1/data/odds/event/list${qs ? `?${qs}` : ""}`;
     return this.request("GET", path, {
@@ -103,15 +99,11 @@ export class DatalineClient {
 
   async searchOddsEvents(params: {
     query: string;
-    status?: "open" | "closed" | "settled" | "all";
-    sort?: "relevance" | "volume" | "open_interest" | "close_time";
     page?: number;
     limit?: number;
   }): Promise<EventResponse[] | DatalineError> {
     const q = new URLSearchParams();
     q.set("query", params.query);
-    if (params.status) q.set("status", params.status);
-    if (params.sort) q.set("sort", params.sort);
     if (params.page !== undefined) q.set("page", String(params.page));
     if (params.limit !== undefined) q.set("limit", String(params.limit));
     const path = `/api/v1/data/odds/event/search?${q.toString()}`;

@@ -118,8 +118,6 @@ describe("MCP Server Tools", () => {
     expect(parsed[0].event_id).toBe("evt-1");
     expect(mockClient.searchOddsEvents).toHaveBeenCalledWith({
       query: "bitcoin",
-      status: "open",
-      sort: "relevance",
       page: undefined,
       limit: undefined,
     });
@@ -180,12 +178,10 @@ describe("MCP Server Tools", () => {
     expect(parsed[0].title).toBe("Test");
     expect(mockClient.getOddsEventList).toHaveBeenCalledWith({
       category: "crypto",
-      status: "open",
-      sort: "volume",
+      isActive: undefined,
       page: undefined,
       limit: undefined,
       platform: undefined,
-      cursor: undefined,
     });
   });
 

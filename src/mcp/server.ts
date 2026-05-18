@@ -61,15 +61,11 @@ export function createTools(server: McpServer, client: DatalineClient) {
         .string()
         .min(3)
         .describe("Search keyword, slug, or ticker. Min 3 characters."),
-      status: z.enum(["open", "closed", "settled", "all"]).optional().default("open")
-        .describe("Filter by event status. Default 'open' — use 'all' only when you need historical events."),
-      sort: z.enum(["relevance", "volume", "open_interest", "close_time"]).optional().default("relevance")
-        .describe("Sort order for results"),
       page: z.number().optional().describe("Page number for pagination"),
       limit: z.number().optional().describe("Results per page"),
     },
-    async ({ query, status, sort, page, limit }) => {
-      const data = await client.searchOddsEvents({ query, status, sort, page, limit });
+    async ({ query, page, limit }) => {
+      const data = await client.searchOddsEvents({ query, page, limit });
       return {
         content: [{ type: "text" as const, text: compactForAgent(data) }],
       };
@@ -152,33 +148,28 @@ export function createTools(server: McpServer, client: DatalineClient) {
 
   server.tool(
     "get_odds_event_list",
-    "List prediction market events, optionally filtered by category, platform, and status. Returns events with markets and outcome probabilities. Use get_odds_categories to discover valid category values. Limit max 50 per page.",
+    "List prediction market events, optionally filtered by category and platform. Returns events with markets and outcome probabilities. Use get_odds_categories to discover valid category values.",
     {
       category: z
         .string()
         .optional()
         .describe("Category filter e.g. crypto, politics, sports. Use get_odds_categories to list valid values."),
-      status: z.enum(["open", "closed", "settled", "all"]).optional().default("open")
-        .describe("Filter by event status. Default 'open'."),
-      sort: z.enum(["volume", "open_interest", "liquidity", "close_time"]).optional().default("volume")
-        .describe("Sort order"),
+      is_active: z.boolean().optional()
+        .describe("Filter by active status: true = open/active events only, false = closed events only, omit for all."),
       page: z.number().optional().describe("Page number for pagination"),
-      limit: z.number().optional().describe("Results per page (max 50)"),
+      limit: z.number().optional().describe("Results per page (max 100)"),
       platform: z
         .enum(["polymarket", "kalshi"])
         .optional()
         .describe("Platform filter"),
-      cursor: z.string().optional().describe("Cursor for next page pagination. Pass the cursor value from a previous response."),
     },
-    async ({ category, status, sort, page, limit, platform, cursor }) => {
+    async ({ category, is_active, page, limit, platform }) => {
       const data = await client.getOddsEventList({
         category,
-        status,
-        sort,
+        isActive: is_active,
         page,
         limit,
         platform,
-        cursor,
       });
       return {
         content: [{ type: "text" as const, text: compactForAgent(data) }],
