@@ -1,0 +1,55 @@
+{
+  "name": "@dataline-xyz/dataline-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol (MCP) server and TypeScript SDK for the Dataline data API (spot prices, funding rates, and prediction-market data)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "dataline-mcp": "./dist/mcp/server.js"
+  },
+  "files": [
+    "dist",
+    "openapi.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "dataline",
+    "crypto",
+    "prediction-market",
+    "funding-rate",
+    "ai-tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dataline-xyz/dataline-mcps.git"
+  },
+  "homepage": "https://www.dataline.xyz",
+  "bugs": {
+    "url": "https://github.com/dataline-xyz/dataline-mcps/issues"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "dev": "tsup --watch",
+    "prepublishOnly": "pnpm build && pnpm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

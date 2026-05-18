@@ -1,0 +1,1677 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Dataline Data API",
+    "version": "1.0.0",
+    "description": "Public market data endpoints (prices, funding rates, prediction market odds)."
+  },
+  "servers": [
+    {
+      "url": "https://www.dataline.xyz"
+    }
+  ],
+  "paths": {
+    "/api/v1/data/odds/event/search": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Event Search",
+        "description": "Event search",
+        "operationId": "event_search_api_v1_data_odds_event_search_get",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 100,
+              "description": "Search keyword Supports fuzzy search on event title",
+              "title": "Query"
+            },
+            "description": "Search keyword Supports fuzzy search on event title"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Items per page"
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_List_EventResponse__"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/odds/event/detail": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Event Detail",
+        "description": "Get event detail",
+        "operationId": "event_detail_api_v1_data_odds_event_detail_get",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "polymarket",
+                "kalshi"
+              ],
+              "type": "string",
+              "description": "Event provider",
+              "title": "Provider"
+            },
+            "description": "Event provider"
+          },
+          {
+            "name": "event_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "eventID",
+              "title": "Event Id"
+            },
+            "description": "eventID"
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_EventDetailResponse_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/price": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get Price",
+        "operationId": "get_price_api_v1_data_price_get",
+        "parameters": [
+          {
+            "name": "base_currency",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "description": "base_currency",
+              "title": "Base Currency"
+            },
+            "description": "base_currency"
+          },
+          {
+            "name": "quote_currency",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "description": "quote_currency",
+              "title": "Quote Currency"
+            },
+            "description": "quote_currency"
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DataTypeEnum",
+              "description": "kind",
+              "default": "spot"
+            },
+            "description": "kind"
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_PriceDataResponse_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/health": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Health",
+        "operationId": "health_api_v1_data_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/odds/event/list": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Event List",
+        "description": "List events for a given category",
+        "operationId": "event_list_api_v1_data_odds_event_list_get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 64
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Event category",
+              "default": "All",
+              "title": "Category"
+            },
+            "description": "Event category"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Items per page"
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "polymarket",
+                    "kalshi"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by platform source",
+              "title": "Platform"
+            },
+            "description": "Filter by platform source"
+          },
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Event status filter True: open False: closed",
+              "title": "Is Active"
+            },
+            "description": "Event status filter True: open False: closed"
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_List_EventResponse__"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/funding_rate": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get Funding Rate",
+        "operationId": "get_funding_rate_api_v1_data_funding_rate_get",
+        "parameters": [
+          {
+            "name": "base_currency",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "description": "base_currency",
+              "title": "Base Currency"
+            },
+            "description": "base_currency"
+          },
+          {
+            "name": "quote_currency",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "description": "quote_currency",
+              "title": "Quote Currency"
+            },
+            "description": "quote_currency"
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/FundingRateKindEnum"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "kind",
+              "title": "Kind"
+            },
+            "description": "kind"
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_FundingRateDataResponse_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/odds/event/market/orderbook": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Event Market Orderbook",
+        "description": "Getmarketoforderbook",
+        "operationId": "event_market_orderbook_api_v1_data_odds_event_market_orderbook_get",
+        "parameters": [
+          {
+            "name": "kalshi_market_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "kalshi market id",
+              "title": "Kalshi Market Id"
+            },
+            "description": "kalshi market id"
+          },
+          {
+            "name": "polymarket_market_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "polymarket market id",
+              "title": "Polymarket Market Id"
+            },
+            "description": "polymarket market id"
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_OrderbookResponse_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/data/odds/category/list": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Category List",
+        "description": "Get the list of event categories",
+        "operationId": "category_list_api_v1_data_odds_category_list_get",
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "X-Timestamp",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Timestamp"
+            }
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Signature"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response200_list_"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DataTypeEnum": {
+        "type": "string",
+        "enum": [
+          "spot",
+          "swap"
+        ],
+        "title": "DataTypeEnum"
+      },
+      "EventDetailResponse": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider",
+            "description": "Event provider name",
+            "examples": [
+              "Twitter"
+            ]
+          },
+          "event_id": {
+            "type": "string",
+            "title": "Event Id",
+            "description": "Unique event identifierID",
+            "examples": [
+              "123456"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Event title",
+            "examples": [
+              "Sample Event"
+            ]
+          },
+          "rules": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rules",
+            "description": "Event rules and description",
+            "examples": [
+              [
+                {
+                  "rules_primary": "This market will resolve to “Yes” if the named individual wins and accepts the 2028 nomination of the Democratic Party for U.S. president. Otherwise, this market will resolve to “No”.\n\nThe resolution source for this market will be a consensus of official Democratic Party sources.\n\nAny replacement of the democratic nominee before election day will not change the resolution of the market.",
+                  "rules_secondary": ""
+                }
+              ]
+            ]
+          },
+          "open_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Time",
+            "description": "Event open time，Unixtimestamp",
+            "examples": [
+              "1633036800"
+            ]
+          },
+          "close_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Close Time",
+            "description": "Event close time，Unixtimestamp",
+            "examples": [
+              "1633123200"
+            ]
+          },
+          "volume": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume",
+            "description": "Total traded volume for the event",
+            "examples": [
+              1000.0
+            ]
+          },
+          "volume_24h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume 24H",
+            "description": "Event-related2424-hour traded volume",
+            "examples": [
+              200.0
+            ]
+          },
+          "summary_data": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Data",
+            "description": "eventaiSummary data",
+            "examples": [
+              {
+                "category": "prediction-analysis",
+                "shared_thread_id": "2ad2b904-aff4-4576-b356-c358b8e4a620"
+              }
+            ]
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "markets": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markets",
+            "description": "Event market information(multi-provider)",
+            "examples": [
+              {
+                "kalshi": [
+                  {
+                    "best_no_ask": 0,
+                    "best_yes_ask": 1,
+                    "id": "559767",
+                    "is_active": true,
+                    "last_ask_price": 1,
+                    "no_sub_title": "*****",
+                    "rules": {
+                      "rules_primary": "This market will resolve to “Yes” if the named individual wins and accepts the 2028 nomination of the Democratic Party for U.S. president. Otherwise, this market will resolve to “No”.\n\nThe resolution source for this market will be a consensus of official Democratic Party sources.\n\nAny replacement of the democratic nominee before election day will not change the resolution of the market.",
+                      "rules_secondary": ""
+                    },
+                    "sub_title": "",
+                    "title": "Person CH",
+                    "volume": "0",
+                    "volume_24h": "0",
+                    "yes_sub_title": "*****"
+                  }
+                ],
+                "polymarket": [
+                  {
+                    "best_no_ask": 0.995,
+                    "best_yes_ask": 0.006,
+                    "id": "559657",
+                    "is_active": true,
+                    "last_ask_price": 0.006,
+                    "rules": {
+                      "rules_primary": "This market will resolve to “Yes” if the named individual wins and accepts the 2028 nomination of the Democratic Party for U.S. president. Otherwise, this market will resolve to “No”.\n\nThe resolution source for this market will be a consensus of official Democratic Party sources.\n\nAny replacement of the democratic nominee before election day will not change the resolution of the market.",
+                      "rules_secondary": ""
+                    },
+                    "sub_title": "",
+                    "title": "Stephen A. Smith",
+                    "volume": "1708551.481994",
+                    "volume_24h": "21404.357952000002"
+                  }
+                ]
+              }
+            ]
+          },
+          "is_merged": {
+            "type": "boolean",
+            "title": "Is Merged",
+            "description": "Whether the event has been merged",
+            "examples": [
+              false
+            ]
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the event is currently open",
+            "examples": [
+              true
+            ]
+          },
+          "outcomes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcomes",
+            "description": "aggregated prediction outcomes",
+            "examples": [
+              [
+                {
+                  "method": "average",
+                  "name": "Candidate A",
+                  "probability": 0.61,
+                  "sources": [
+                    {
+                      "market_id": "559657",
+                      "name": "Candidate A",
+                      "probability": 0.6,
+                      "provider": "polymarket"
+                    },
+                    {
+                      "market_id": "KALSHI123-YES",
+                      "name": "Candidate A",
+                      "probability": 0.62,
+                      "provider": "kalshi"
+                    }
+                  ]
+                },
+                {
+                  "method": "single_source",
+                  "name": "Candidate B",
+                  "probability": 0.22,
+                  "sources": [
+                    {
+                      "market_id": "559658",
+                      "name": "Candidate B",
+                      "probability": 0.22,
+                      "provider": "polymarket"
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "event_id",
+          "title",
+          "is_merged",
+          "is_active"
+        ],
+        "title": "EventDetailResponse"
+      },
+      "EventResponse": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider",
+            "description": "Event provider name",
+            "examples": [
+              "Twitter"
+            ]
+          },
+          "event_id": {
+            "type": "string",
+            "title": "Event Id",
+            "description": "Unique event identifierID",
+            "examples": [
+              "123456"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Event title",
+            "examples": [
+              "Sample Event"
+            ]
+          },
+          "volume": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume",
+            "description": "Total traded volume for the event",
+            "examples": [
+              1000.0
+            ]
+          },
+          "volume_24h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume 24H",
+            "description": "Event-related2424-hour traded volume",
+            "examples": [
+              200.0
+            ]
+          },
+          "open_time": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Time",
+            "description": "Event open time，Unixtimestamp",
+            "examples": [
+              "1633036800"
+            ]
+          },
+          "close_time": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Close Time",
+            "description": "Event close time，Unixtimestamp",
+            "examples": [
+              "1633123200"
+            ]
+          },
+          "is_merged": {
+            "type": "boolean",
+            "title": "Is Merged",
+            "description": "Whether the event has been merged",
+            "examples": [
+              false
+            ]
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the event is currently open",
+            "examples": [
+              true
+            ]
+          },
+          "kalshi_event_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kalshi Event Id",
+            "description": "KalshieventID（applies to merged events）",
+            "examples": [
+              "KALSHI123"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "event_id",
+          "title",
+          "is_merged",
+          "is_active"
+        ],
+        "title": "EventResponse"
+      },
+      "ExchangeFundingRateResponse": {
+        "properties": {
+          "exchange": {
+            "type": "string",
+            "title": "Exchange",
+            "description": "Exchange name"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol",
+            "description": "Exchange market symbol"
+          },
+          "sub_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sub Type",
+            "description": "Funding rate contract type"
+          },
+          "funding_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Funding Rate",
+            "description": "Funding rate"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timestamp",
+            "description": "Funding rate timestamp in milliseconds"
+          },
+          "funding_timestamp": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Funding Timestamp",
+            "description": "Current funding timestamp in milliseconds"
+          },
+          "next_funding_timestamp": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Funding Timestamp",
+            "description": "Next funding timestamp in milliseconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "exchange",
+          "symbol"
+        ],
+        "title": "ExchangeFundingRateResponse"
+      },
+      "ExchangePriceResponse": {
+        "properties": {
+          "exchange": {
+            "type": "string",
+            "title": "Exchange",
+            "description": "Exchange name"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol",
+            "description": "Exchange market symbol"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price",
+            "description": "Latest price"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timestamp",
+            "description": "Ticker timestamp in milliseconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "exchange",
+          "symbol"
+        ],
+        "title": "ExchangePriceResponse"
+      },
+      "FundingRateDataResponse": {
+        "properties": {
+          "base": {
+            "type": "string",
+            "title": "Base",
+            "description": "Base currency"
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote",
+            "description": "Quote currency"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FundingRateKindEnum"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Funding rate contract type"
+          },
+          "success_count": {
+            "type": "integer",
+            "title": "Success Count",
+            "description": "Successful funding rate count"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/ExchangeFundingRateResponse"
+            },
+            "type": "array",
+            "title": "Sources",
+            "description": "Exchange funding rate details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "base",
+          "success_count",
+          "sources"
+        ],
+        "title": "FundingRateDataResponse"
+      },
+      "FundingRateKindEnum": {
+        "type": "string",
+        "enum": [
+          "linear",
+          "inverse"
+        ],
+        "title": "FundingRateKindEnum"
+      },
+      "OrderbookAsksOrBids": {
+        "properties": {
+          "price": {
+            "type": "number",
+            "title": "Price",
+            "description": "price",
+            "examples": [
+              0.01
+            ]
+          },
+          "size": {
+            "type": "number",
+            "title": "Size",
+            "description": "size",
+            "examples": [
+              100.98
+            ]
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider",
+            "description": "provider",
+            "examples": [
+              0.01
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "price",
+          "size",
+          "provider"
+        ],
+        "title": "OrderbookAsksOrBids"
+      },
+      "OrderbookResponse": {
+        "properties": {
+          "tick_size": {
+            "type": "number",
+            "title": "Tick Size",
+            "description": "tick precision",
+            "examples": [
+              0.01
+            ]
+          },
+          "asks": {
+            "items": {
+              "$ref": "#/components/schemas/OrderbookAsksOrBids"
+            },
+            "type": "array",
+            "title": "Asks",
+            "description": "Ask side of the orderbook",
+            "examples": [
+              {
+                "price": 0.16,
+                "provider": "Polymarket",
+                "size": 3322.84
+              },
+              {
+                "price": 0.5,
+                "provider": "Polymarket",
+                "size": 400
+              }
+            ]
+          },
+          "bids": {
+            "items": {
+              "$ref": "#/components/schemas/OrderbookAsksOrBids"
+            },
+            "type": "array",
+            "title": "Bids",
+            "description": "Bid side of the orderbook",
+            "examples": [
+              {
+                "price": 0.16,
+                "provider": "Polymarket",
+                "size": 3322.84
+              },
+              {
+                "price": 0.5,
+                "provider": "Polymarket",
+                "size": 400
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "tick_size",
+          "asks",
+          "bids"
+        ],
+        "title": "OrderbookResponse"
+      },
+      "PriceDataResponse": {
+        "properties": {
+          "base": {
+            "type": "string",
+            "title": "Base",
+            "description": "Base currency"
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote",
+            "description": "Quote currency"
+          },
+          "average_price": {
+            "type": "number",
+            "title": "Average Price",
+            "description": "Average price from successful exchanges"
+          },
+          "success_count": {
+            "type": "integer",
+            "title": "Success Count",
+            "description": "Successful exchange count"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/ExchangePriceResponse"
+            },
+            "type": "array",
+            "title": "Sources",
+            "description": "Exchange price details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "base",
+          "quote",
+          "average_price",
+          "success_count",
+          "sources"
+        ],
+        "title": "PriceDataResponse"
+      },
+      "Response200_EventDetailResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 0
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "default": "Success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/EventDetailResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "Response200[EventDetailResponse]"
+      },
+      "Response200_FundingRateDataResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 0
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "default": "Success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/FundingRateDataResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "Response200[FundingRateDataResponse]"
+      },
+      "Response200_List_EventResponse__": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 0
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "default": "Success"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/EventResponse"
+            },
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "Response200[List[EventResponse]]"
+      },
+      "Response200_OrderbookResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 0
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "default": "Success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderbookResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "Response200[OrderbookResponse]"
+      },
+      "Response200_PriceDataResponse_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 0
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "default": "Success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PriceDataResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "Response200[PriceDataResponse]"
+      },
+      "Response200_list_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "default": 0
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "default": "Success"
+          },
+          "data": {
+            "items": {},
+            "type": "array",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "Response200[list]"
+      }
+    }
+  }
+}
